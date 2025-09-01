@@ -10,27 +10,27 @@ import Foundation
 protocol DIContainer: AnyObject {
     func register<T>(
         identifier: T.Type,
-        dependency: @Sendable @escaping () -> T
-    ) async
+        dependency: @escaping () -> T
+    )
 
     func register<T>(
         identifier: T.Type,
-        dependency: @Sendable @escaping (_ parameters: Any) -> T
-    ) async
+        dependency: @escaping (_ parameters: Any) -> T
+    )
 
-    func resolve<T>(identifier: T.Type) async -> T
-    func resolve<T>(identifier: T.Type, parameters: Any) async -> T
+    func resolve<T>(identifier: T.Type) -> T
+    func resolve<T>(identifier: T.Type, parameters: Any) -> T
 }
 
-final actor DIContainerImp: DIContainer {
+final class DIContainerImp: DIContainer {
     private var dependencies = [ObjectIdentifier: Any]()
 
     init() {}
 
     func register<T>(
         identifier: T.Type,
-        dependency: @Sendable @escaping () -> T
-    ) async {
+        dependency: @escaping () -> T
+    ) {
         let id = ObjectIdentifier(identifier)
 
         dependencies[id] = dependency
@@ -38,14 +38,14 @@ final actor DIContainerImp: DIContainer {
 
     func register<T>(
         identifier: T.Type,
-        dependency: @Sendable @escaping (_ parameters: Any) -> T
-    ) async {
+        dependency: @escaping (_ parameters: Any) -> T
+    ) {
         let id = ObjectIdentifier(identifier)
 
         dependencies[id] = dependency
     }
 
-    func resolve<T>(identifier: T.Type) async -> T {
+    func resolve<T>(identifier: T.Type) -> T {
         let id = ObjectIdentifier(identifier)
 
         guard let dependency = dependencies[id] as? () -> T else {
@@ -55,7 +55,7 @@ final actor DIContainerImp: DIContainer {
         return dependency()
     }
 
-    func resolve<T>(identifier: T.Type, parameters: Any) async -> T {
+    func resolve<T>(identifier: T.Type, parameters: Any) -> T {
         let id = ObjectIdentifier(identifier)
 
         guard let dependency = dependencies[id] as? (_ parameters: Any) -> T else {
