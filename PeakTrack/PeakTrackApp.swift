@@ -9,6 +9,10 @@ import SwiftUI
 
 @main
 struct PeakTrackApp: App {
+    init() {
+        DIAssembler.assembly()
+    }
+
     var body: some Scene {
         WindowGroup {
             EmptyView()
