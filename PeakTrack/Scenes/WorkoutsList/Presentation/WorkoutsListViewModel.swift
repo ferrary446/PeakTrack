@@ -30,6 +30,7 @@ final class WorkoutsListViewModel: ObservableObject {
         let onAction: @MainActor (Action) -> Void
     }
 
+    @MainActor @Published private(set) var currentCategory: WorkoutStorageCategory = .all
     @MainActor @Published private(set) var state: State = .loading
 
     @MainActor private var workoutsByCategory = [WorkoutStorageCategory: [WorkoutInformation]]()
@@ -49,6 +50,7 @@ final class WorkoutsListViewModel: ObservableObject {
             await MainActor.run { [weak self] in
                 self?.workoutsByCategory[.all] = workouts
                 self?.workoutsByCategory[.local] = workouts
+                self?.workoutsByCategory[.remote] = [] // TODO: -IY- Get in future
             }
 
             await setContent(from: workouts)
@@ -84,6 +86,8 @@ final class WorkoutsListViewModel: ObservableObject {
 
     @MainActor
     func filterWorkouts(by category: WorkoutStorageCategory) {
+        currentCategory = category
+
         if let workouts = workoutsByCategory[category] {
             setContent(from: workouts)
         }
@@ -112,7 +116,7 @@ private extension WorkoutsListViewModel {
         let information = workoutsByCategory[.all]?.first(where: { $0.id == id })
 
         if let information {
-            parameters.onAction(.showWorkoutDetail(information: information))            
+            parameters.onAction(.showWorkoutDetail(information: information))
         }
     }
 }

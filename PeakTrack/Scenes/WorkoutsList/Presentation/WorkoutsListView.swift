@@ -96,8 +96,18 @@ private extension WorkoutsListView {
                 content: {
                     ForEach(WorkoutStorageCategory.allCases, id: \.title) { category in
                         Button(
-                            category.title,
-                            action: { viewModel.filterWorkouts(by: category) }
+                            action: { viewModel.filterWorkouts(by: category) },
+                            label: {
+                                HStack {
+                                    Text(category.title)
+
+                                    Spacer()
+
+                                    if viewModel.currentCategory == category {
+                                        Image(systemName: "checkmark")
+                                    }
+                                }
+                            }
                         )
                     }
                 },
