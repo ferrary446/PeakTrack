@@ -22,22 +22,47 @@ struct WorkoutsListView: View {
                     .font(.headline)
             case .loading:
                 ProgressView()
-            case .content:
-                List {
-                    
-                }
-                .refreshable {
-                    await viewModel.onLoad()
-                }
+            case let .content(rows):
+                makeContentView(from: rows)
             }
         }
         .onLoad(perform: viewModel.onLoad)
+        .refreshable {
+            await viewModel.onLoad()
+        }
         .navigationTitle("Workouts")
         .toolbar {
             filterMenuToolbarContent()
         }
         .toolbar {
             addButtonToolbarContent()
+        }
+    }
+}
+
+// MARK: - ToolbarContent
+private extension WorkoutsListView {
+    func makeContentView(from rows: [WorkoutListRowViewModel]) -> some View {
+        List(rows) { row in
+            Button(action: row.onTap) {
+                Text(row.title)
+                row.subtitle.map { Text($0) }
+            }
+            .swipeActions(
+                edge: .trailing,
+                allowsFullSwipe: true,
+                content: {
+                    Button(
+                        "Delete",
+                        role: .destructive,
+                        action: {
+                            Task {
+                                await viewModel.delete(workoutID: row.id)
+                            }
+                        }
+                    )
+                }
+            )
         }
     }
 }

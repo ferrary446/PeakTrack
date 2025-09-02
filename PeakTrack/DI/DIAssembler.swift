@@ -6,7 +6,22 @@
 //
 
 enum DIAssembler {
+    @MainActor
     static func assembly() {
+        assembleInfrastructure()
+        assembleScenes()
+    }
+}
+
+private extension DIAssembler {
+    @MainActor
+    static func assembleInfrastructure() {
+        assembleDBManager()
+    }
+}
+
+private extension DIAssembler {
+    static func assembleScenes() {
         assembleAddNewWorkout()
         assembleWorkoutsList()
     }

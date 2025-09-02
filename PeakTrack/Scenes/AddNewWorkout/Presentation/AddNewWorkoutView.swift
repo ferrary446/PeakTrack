@@ -78,9 +78,16 @@ private extension AddNewWorkoutView {
 private extension AddNewWorkoutView {
     func makeButtonsContentView() -> some View {
         HStack(spacing: 0) {
-            Button(action: {}) {
-                Label("Save to DB", systemImage: "server.rack")
-            }
+            Button(
+                action: {
+                    Task {
+                        await viewModel.saveToDB()
+                    }
+                },
+                label: {
+                    Label("Save to DB", systemImage: "server.rack")
+                }
+            )
 
             Spacer()
 

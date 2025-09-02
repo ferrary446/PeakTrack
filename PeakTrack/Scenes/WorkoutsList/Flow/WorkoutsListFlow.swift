@@ -29,12 +29,15 @@ struct WorkoutsListFlow: View {
     var body: some View {
         dependencies.workoutsListViewBuilder { action in
             switch action {
-            case .showAddNewWorkout:
+            case let .showAddNewWorkout(onSave):
                 router.presentSheet {
                     dependencies.addNewWorkoutViewBuilder { action in
                         switch action {
                         case .cancel:
                             router.dismissSheet()
+                        case .save:
+                            router.dismissSheet()
+                            onSave()
                         }
                     }
                 }
