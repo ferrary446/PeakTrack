@@ -49,6 +49,7 @@ struct AddNewWorkoutView: View {
                 focusState = nil
             }
         }
+        .alert(model: $viewModel.alert)
     }
 }
 
@@ -91,9 +92,12 @@ private extension AddNewWorkoutView {
 
             Spacer()
 
-            Button(action: {}) {
-                Label("Save to Server", systemImage: "network")
-            }
+            Button(
+                action: viewModel.saveToServer,
+                label: {
+                    Label("Save to Server", systemImage: "network")
+                }
+            )
         }
     }
 }

@@ -21,6 +21,7 @@ final class AddNewWorkoutViewModel: ObservableObject {
         let onAction: @MainActor (Action) -> Void
     }
 
+    @MainActor @Published var alert: AsyncAlertViewModel?
     @MainActor @Published var nameText: String = ""
     @MainActor @Published var placeText: String = ""
     @MainActor @Published var durationText: String = ""
@@ -40,7 +41,8 @@ final class AddNewWorkoutViewModel: ObservableObject {
 
     @MainActor
     func saveToDB() async {
-        guard !nameText.isEmpty || !placeText.isEmpty || !durationText.isEmpty else {
+        guard !nameText.isEmpty else {
+            setAlert(message: "Name field is required")
             return
         }
 
@@ -57,5 +59,30 @@ final class AddNewWorkoutViewModel: ObservableObject {
         } catch {
             print(error.localizedDescription)
         }
+    }
+    
+    @MainActor
+    func saveToServer() {
+        setAlert(message: "This feature in progress...")
+    }
+}
+
+private extension AddNewWorkoutViewModel {
+    @MainActor
+    func setAlert(message: String) {
+        let alert = AsyncAlertViewModel(
+            title: "Warning ⚠️",
+            message: message,
+            buttons: [
+                AsyncAlertViewModel.ButtonViewModel(
+                    title: "Confirm",
+                    action: { [weak self] in
+                        self?.alert = nil
+                    }
+                )
+            ]
+        )
+
+        self.alert = alert
     }
 }
