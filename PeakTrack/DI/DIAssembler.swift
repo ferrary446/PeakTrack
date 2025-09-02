@@ -7,6 +7,7 @@
 
 enum DIAssembler {
     static func assembly() {
+        assembleAddNewWorkout()
         assembleWorkoutsList()
     }
 }

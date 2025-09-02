@@ -7,8 +7,16 @@
 
 extension DIAssembler {
     static func assembleWorkoutsList() {
-        DI.live.register(identifier: WorkoutsListView.self) {
-            WorkoutsListView()
+        DI.live.register(identifier: WorkoutsListView.self) { parameters in
+            guard let parameters = parameters as? WorkoutsListViewModel.Parameters else {
+                fatalError("Fail to cast \(parameters.self) to DI parameters")
+            }
+
+            let viewModel = WorkoutsListViewModel(
+                parameters: parameters
+            )
+
+            return WorkoutsListView(viewModel: viewModel)
         }
     }
 }

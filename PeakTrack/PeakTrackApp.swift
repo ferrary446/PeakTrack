@@ -9,7 +9,7 @@ import SwiftUI
 
 @main
 struct PeakTrackApp: App {
-    @StateObject private var navigationRouter = NavigationRouter()
+    @StateObject private var router = NavigationRouter()
 
     init() {
         DIAssembler.assembly()
@@ -17,10 +17,36 @@ struct PeakTrackApp: App {
 
     var body: some Scene {
         WindowGroup {
-            NavigationStack(path: $navigationRouter.path) {
-                EmptyView()
+            NavigationStack(path: $router.path) {
+                WorkoutsListFlow(
+                    dependencies: WorkoutsListFlow.Dependencies(
+                        addNewWorkoutViewBuilder: { onAction in
+                            let parameters = AddNewWorkoutViewModel.Parameters(
+                                onAction: onAction
+                            )
+
+                            DI.live.resolve(
+                                identifier: AddNewWorkoutView.self,
+                                parameters: parameters
+                            )
+                        },
+                        workoutsListViewBuilder: { onAction in
+                            let parameters = WorkoutsListViewModel.Parameters(
+                                onAction: onAction
+                            )
+
+                            DI.live.resolve(
+                                identifier: WorkoutsListView.self,
+                                parameters: parameters
+                            )
+                        }
+                    )
+                )
             }
-            .environmentObject(navigationRouter)
+            .environmentObject(router)
+            .sheet(item: $router.sheetDestination) { destination in
+                destination.content()
+            }
         }
     }
 }
