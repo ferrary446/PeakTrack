@@ -45,8 +45,19 @@ private extension WorkoutsListView {
     func makeContentView(from rows: [WorkoutListRowViewModel]) -> some View {
         List(rows) { row in
             Button(action: row.onTap) {
-                Text(row.title)
-                row.subtitle.map { Text($0) }
+                HStack {
+                    VStack(alignment: .leading) {
+                        Text(row.title)
+
+                        row.subtitle.map { Text($0) }
+                    }
+                    
+                    Spacer()
+
+                    Image(systemName: "chevron.right")
+                        .renderingMode(.template)
+                        .foregroundStyle(.blue)
+                }
             }
             .swipeActions(
                 edge: .trailing,

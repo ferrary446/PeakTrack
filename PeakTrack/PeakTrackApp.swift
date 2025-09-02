@@ -39,6 +39,16 @@ struct PeakTrackApp: App {
                                 identifier: WorkoutsListView.self,
                                 parameters: parameters
                             )
+                        },
+                        workoutDetailViewBuilder: { information in
+                            let parameters = WorkoutDetailView.Parameters(
+                                information: information
+                            )
+
+                            DI.live.resolve(
+                                identifier: WorkoutDetailView.self,
+                                parameters: parameters
+                            )
                         }
                     )
                 )

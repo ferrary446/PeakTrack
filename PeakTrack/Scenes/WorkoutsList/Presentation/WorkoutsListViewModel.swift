@@ -11,7 +11,7 @@ import SwiftUI
 final class WorkoutsListViewModel: ObservableObject {
     enum Action {
         case showAddNewWorkout(onSave: @MainActor () -> Void)
-        case showWorkoutDetail
+        case showWorkoutDetail(information: WorkoutInformation)
     }
 
     enum State: Equatable {
@@ -95,13 +95,24 @@ private extension WorkoutsListViewModel {
     func setContent(from workouts: [WorkoutInformation]) {
         let rows = dependencies.presenter.present(
             workouts: workouts,
-            onSelectWorkout: { _ in }
+            onSelectWorkout: { [weak self] id in
+                self?.showWorkoutDetail(by: id)
+            }
         )
 
         if rows.isEmpty {
             state = .empty
         } else {
             state = .content(rows)
+        }
+    }
+
+    @MainActor
+    func showWorkoutDetail(by id: UUID) {
+        let information = workoutsByCategory[.all]?.first(where: { $0.id == id })
+
+        if let information {
+            parameters.onAction(.showWorkoutDetail(information: information))            
         }
     }
 }

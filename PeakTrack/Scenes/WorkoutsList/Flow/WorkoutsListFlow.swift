@@ -9,7 +9,7 @@ import SwiftUI
 
 struct WorkoutsListFlow: View {
     enum Destination: Hashable {
-        case workoutDetail
+        case workoutDetail(information: WorkoutInformation)
     }
 
     @EnvironmentObject private var router: NavigationRouter
@@ -22,6 +22,10 @@ struct WorkoutsListFlow: View {
         @ViewBuilder let workoutsListViewBuilder: (
             _ onAction: @escaping (WorkoutsListViewModel.Action) -> Void
         ) -> WorkoutsListView
+        
+        @ViewBuilder let workoutDetailViewBuilder: (
+            _ information: WorkoutInformation
+        ) -> WorkoutDetailView
     }
 
     let dependencies: Dependencies
@@ -41,14 +45,14 @@ struct WorkoutsListFlow: View {
                         }
                     }
                 }
-            case .showWorkoutDetail:
-                router.navigate(to: Destination.workoutDetail)
+            case let .showWorkoutDetail(information):
+                router.navigate(to: Destination.workoutDetail(information: information))
             }
         }
         .navigationDestination(for: Destination.self) { destination in
             switch destination {
-            case .workoutDetail:
-                EmptyView()
+            case let .workoutDetail(information):
+                dependencies.workoutDetailViewBuilder(information)
             }
         }
     }

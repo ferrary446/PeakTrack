@@ -23,6 +23,7 @@ private extension DIAssembler {
 private extension DIAssembler {
     static func assembleScenes() {
         assembleAddNewWorkout()
+        assembleWorkoutDetail()
         assembleWorkoutsList()
     }
 }
