@@ -5,6 +5,7 @@
 //  Created by Ilya Yushkov on 01.09.2025.
 //
 
+import FirebaseCore
 import SwiftUI
 
 @main
@@ -12,6 +13,7 @@ struct PeakTrackApp: App {
     @StateObject private var router = NavigationRouter()
 
     init() {
+        FirebaseApp.configure()
         DIAssembler.assembly()
     }
 

@@ -29,6 +29,9 @@ DerivedData/
 ## Obj-C/Swift specific
 *.hmap
 
+## Google
+/PeakTrack/Resources/GoogleService-Info.plist
+
 ## App packaging
 *.ipa
 *.dSYM.zip

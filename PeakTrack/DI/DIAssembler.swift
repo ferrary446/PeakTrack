@@ -17,6 +17,7 @@ private extension DIAssembler {
     @MainActor
     static func assembleInfrastructure() {
         assembleDBManager()
+        assembleFirestoreManager()
     }
 }
 
