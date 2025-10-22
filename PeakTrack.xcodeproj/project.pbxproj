@@ -12,14 +12,30 @@
 		832159472EA7C9C100992F2F /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 832159462EA7C9C100992F2F /* FirebaseFirestore */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		8363B2DE2EA8D5E5002ADAD7 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 835B129E2E65EC3000D7A667 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 835B12A52E65EC3000D7A667;
+			remoteInfo = PeakTrack;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
 		835B12A62E65EC3000D7A667 /* PeakTrack.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PeakTrack.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		8363B2DA2EA8D5E5002ADAD7 /* PeakTrackTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PeakTrackTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		835B12A82E65EC3000D7A667 /* PeakTrack */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = PeakTrack;
+			sourceTree = "<group>";
+		};
+		8363B2DB2EA8D5E5002ADAD7 /* PeakTrackTests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = PeakTrackTests;
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -35,6 +51,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		8363B2D72EA8D5E5002ADAD7 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -42,6 +65,7 @@
 			isa = PBXGroup;
 			children = (
 				835B12A82E65EC3000D7A667 /* PeakTrack */,
+				8363B2DB2EA8D5E5002ADAD7 /* PeakTrackTests */,
 				835B12A72E65EC3000D7A667 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -50,6 +74,7 @@
 			isa = PBXGroup;
 			children = (
 				835B12A62E65EC3000D7A667 /* PeakTrack.app */,
+				8363B2DA2EA8D5E5002ADAD7 /* PeakTrackTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -82,6 +107,29 @@
 			productReference = 835B12A62E65EC3000D7A667 /* PeakTrack.app */;
 			productType = "com.apple.product-type.application";
 		};
+		8363B2D92EA8D5E5002ADAD7 /* PeakTrackTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 8363B2E22EA8D5E5002ADAD7 /* Build configuration list for PBXNativeTarget "PeakTrackTests" */;
+			buildPhases = (
+				8363B2D62EA8D5E5002ADAD7 /* Sources */,
+				8363B2D72EA8D5E5002ADAD7 /* Frameworks */,
+				8363B2D82EA8D5E5002ADAD7 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				8363B2DF2EA8D5E5002ADAD7 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				8363B2DB2EA8D5E5002ADAD7 /* PeakTrackTests */,
+			);
+			name = PeakTrackTests;
+			packageProductDependencies = (
+			);
+			productName = PeakTrackTests;
+			productReference = 8363B2DA2EA8D5E5002ADAD7 /* PeakTrackTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -89,11 +137,15 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
-				LastSwiftUpdateCheck = 1640;
+				LastSwiftUpdateCheck = 2600;
 				LastUpgradeCheck = 1640;
 				TargetAttributes = {
 					835B12A52E65EC3000D7A667 = {
 						CreatedOnToolsVersion = 16.4;
+					};
+					8363B2D92EA8D5E5002ADAD7 = {
+						CreatedOnToolsVersion = 26.0.1;
+						TestTargetID = 835B12A52E65EC3000D7A667;
 					};
 				};
 			};
@@ -116,12 +168,20 @@
 			projectRoot = "";
 			targets = (
 				835B12A52E65EC3000D7A667 /* PeakTrack */,
+				8363B2D92EA8D5E5002ADAD7 /* PeakTrackTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
 		835B12A42E65EC3000D7A667 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8363B2D82EA8D5E5002ADAD7 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -138,7 +198,22 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		8363B2D62EA8D5E5002ADAD7 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		8363B2DF2EA8D5E5002ADAD7 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 835B12A52E65EC3000D7A667 /* PeakTrack */;
+			targetProxy = 8363B2DE2EA8D5E5002ADAD7 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		835B12C72E65EC3100D7A667 /* Debug */ = {
@@ -330,6 +405,50 @@
 			};
 			name = Release;
 		};
+		8363B2E02EA8D5E5002ADAD7 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = T264893398;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.iyushkov.PeakTrackTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/PeakTrack.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/PeakTrack";
+			};
+			name = Debug;
+		};
+		8363B2E12EA8D5E5002ADAD7 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = T264893398;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.iyushkov.PeakTrackTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/PeakTrack.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/PeakTrack";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -347,6 +466,15 @@
 			buildConfigurations = (
 				835B12CA2E65EC3100D7A667 /* Debug */,
 				835B12CB2E65EC3100D7A667 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		8363B2E22EA8D5E5002ADAD7 /* Build configuration list for PBXNativeTarget "PeakTrackTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8363B2E02EA8D5E5002ADAD7 /* Debug */,
+				8363B2E12EA8D5E5002ADAD7 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

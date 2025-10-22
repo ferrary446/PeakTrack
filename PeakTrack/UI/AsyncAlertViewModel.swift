@@ -8,7 +8,7 @@
 import Foundation
 import SwiftUI
 
-struct AsyncAlertViewModel {
+struct AsyncAlertViewModel: Equatable {
     struct ButtonViewModel: Identifiable {
         let id = UUID()
         let title: String
@@ -30,5 +30,11 @@ struct AsyncAlertViewModel {
         self.title = title
         self.message = message
         self.buttons = buttons
+    }
+}
+
+extension AsyncAlertViewModel.ButtonViewModel: Equatable {
+    static func == (lhs: Self, rhs: Self) -> Bool {
+        lhs.id == rhs.id
     }
 }
