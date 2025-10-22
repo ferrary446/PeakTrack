@@ -80,8 +80,24 @@ final class WorkoutsListViewModel: ObservableObject {
 
     @MainActor
     func delete(workoutID: UUID) async {
+        let source: SourceType? = {
+            if workoutsByCategory[.local]?.contains(where: { $0.id == workoutID }) ?? false {
+                return .local
+            }
+            
+            if workoutsByCategory[.remote]?.contains(where: { $0.id == workoutID }) ?? false {
+                return .remote
+            }
+
+            return nil
+        }()
+
+        guard let source else {
+            return
+        }
+
         do {
-            try await dependencies.deleteWorkoutUseCase(by: workoutID, source: .local)
+            try await dependencies.deleteWorkoutUseCase(by: workoutID, source: source)
             await onLoad()
         } catch {
             print(error.localizedDescription)
