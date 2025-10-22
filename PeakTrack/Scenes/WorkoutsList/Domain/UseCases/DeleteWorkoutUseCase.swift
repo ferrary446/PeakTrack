@@ -8,7 +8,10 @@
 import Foundation
 
 protocol DeleteWorkoutUseCase {
-    func callAsFunction(by workoutID: UUID) async throws
+    func callAsFunction(
+        by workoutID: UUID,
+        source: SourceType
+    ) async throws
 }
 
 final class DeleteWorkoutLiveUseCase: DeleteWorkoutUseCase {
@@ -18,7 +21,10 @@ final class DeleteWorkoutLiveUseCase: DeleteWorkoutUseCase {
         self.repository = repository
     }
 
-    func callAsFunction(by workoutID: UUID) async throws {
-        try await repository.delete(by: workoutID)
+    func callAsFunction(
+        by workoutID: UUID,
+        source: SourceType
+    ) async throws {
+        try await repository.delete(by: workoutID, source: source)
     }
 }

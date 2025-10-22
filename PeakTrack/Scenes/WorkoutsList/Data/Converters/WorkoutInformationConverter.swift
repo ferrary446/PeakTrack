@@ -5,6 +5,8 @@
 //  Created by Ilya Yushkov on 02.09.2025.
 //
 
+import Foundation
+
 protocol WorkoutInformationConverter {
     func convert(dto: WorkoutDTOEntity) -> WorkoutInformation
     func convert(dbEntity: WorkoutDBEntity) -> WorkoutInformation
@@ -14,7 +16,7 @@ protocol WorkoutInformationConverter {
 struct WorkoutInformationConverterImp: WorkoutInformationConverter {
     func convert(dto: WorkoutDTOEntity) -> WorkoutInformation {
         WorkoutInformation(
-            id: dto.id,
+            id: UUID(uuidString: dto.id) ?? UUID(),
             name: dto.name,
             place: dto.place,
             duration: dto.duration

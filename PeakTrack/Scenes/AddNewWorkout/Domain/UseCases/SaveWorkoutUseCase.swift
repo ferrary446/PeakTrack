@@ -6,7 +6,10 @@
 //
 
 protocol SaveWorkoutUseCase {
-    func callAsFunction(workout: WorkoutInformation) async throws
+    func callAsFunction(
+        source: SourceType,
+        workout: WorkoutInformation
+    ) async throws
 }
 
 final class SaveWorkoutLiveUseCase: SaveWorkoutUseCase {
@@ -16,7 +19,10 @@ final class SaveWorkoutLiveUseCase: SaveWorkoutUseCase {
         self.repository = repository
     }
 
-    func callAsFunction(workout: WorkoutInformation) async throws {
-        try await repository.save(workout: workout)
+    func callAsFunction(
+        source: SourceType,
+        workout: WorkoutInformation
+    ) async throws {
+        try await repository.save(source: source, workout: workout)
     }
 }

@@ -16,7 +16,10 @@ final class WorkoutsListRemoteRepository: WorkoutsListRepository {
         self.manager = manager
     }
 
-    func delete(by workoutID: UUID) async throws {
+    func delete(
+        by workoutID: UUID,
+        source: SourceType
+    ) async throws {
 //        let dbEntities: [WorkoutDBEntity] = try manager.getEntities(
 //            model: WorkoutDBEntity.self,
 //            predicate: #Predicate<WorkoutDBEntity> { entity in
@@ -30,7 +33,9 @@ final class WorkoutsListRemoteRepository: WorkoutsListRepository {
 //        }
     }
 
-    func getWorkouts() async throws -> [WorkoutInformation] {
+    func getWorkouts(
+        source: SourceType
+    ) async throws -> [WorkoutInformation] {
         let entities: [WorkoutDTOEntity] = try await manager.getDocuments(
             collectionID: .workouts,
             type: WorkoutDTOEntity.self
@@ -40,7 +45,10 @@ final class WorkoutsListRemoteRepository: WorkoutsListRepository {
             .compactMap { [weak self] in self?.converter.convert(dto: $0) }
     }
 
-    func save(workout: WorkoutInformation) async throws {
+    func save(
+        source: SourceType,
+        workout: WorkoutInformation
+    ) async throws {
 //        let dbEntity = converter.convert(domainModel: workout)
 //
 //        try manager.saveEntity(dbEntity)

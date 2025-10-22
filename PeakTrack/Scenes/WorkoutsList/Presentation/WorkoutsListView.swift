@@ -18,8 +18,10 @@ struct WorkoutsListView: View {
         Group {
             switch viewModel.state {
             case .empty:
-                Text("No workout information")
-                    .font(.headline)
+                ScrollView {
+                    Text("No workout information")
+                        .font(.headline)                    
+                }
             case .loading:
                 ProgressView()
             case let .content(rows):

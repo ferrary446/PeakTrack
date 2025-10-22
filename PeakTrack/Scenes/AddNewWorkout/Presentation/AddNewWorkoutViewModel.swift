@@ -54,7 +54,7 @@ final class AddNewWorkoutViewModel: ObservableObject {
                 duration: durationText
             )
 
-            try await dependencies.saveWorkoutUseCase(workout: information)
+            try await dependencies.saveWorkoutUseCase(source: .local, workout: information)
             parameters.onAction(.save)
         } catch {
             print(error.localizedDescription)

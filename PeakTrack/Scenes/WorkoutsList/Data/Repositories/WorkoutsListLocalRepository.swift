@@ -17,7 +17,10 @@ final class WorkoutsListLocalRepository: WorkoutsListRepository {
     }
 
     @MainActor
-    func delete(by workoutID: UUID) async throws {
+    func delete(
+        by workoutID: UUID,
+        source: SourceType
+    ) async throws {
         let dbEntities: [WorkoutDBEntity] = try manager.getEntities(
             model: WorkoutDBEntity.self,
             predicate: #Predicate<WorkoutDBEntity> { entity in
@@ -32,7 +35,9 @@ final class WorkoutsListLocalRepository: WorkoutsListRepository {
     }
 
     @MainActor
-    func getWorkouts() async throws -> [WorkoutInformation] {
+    func getWorkouts(
+        source: SourceType
+    ) async throws -> [WorkoutInformation] {
         let entities: [WorkoutDBEntity] = try manager.getEntities(
             model: WorkoutDBEntity.self,
             predicate: nil
@@ -43,7 +48,10 @@ final class WorkoutsListLocalRepository: WorkoutsListRepository {
     }
 
     @MainActor
-    func save(workout: WorkoutInformation) async throws {
+    func save(
+        source: SourceType,
+        workout: WorkoutInformation
+    ) async throws {
         let dbEntity = converter.convert(domainModel: workout)
 
         try manager.saveEntity(dbEntity)

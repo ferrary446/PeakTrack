@@ -8,7 +8,7 @@
 import Foundation
 
 struct WorkoutDTOEntity: Decodable {
-    let id: UUID
+    let id: String
     let name: String
     let place: String
     let duration: String

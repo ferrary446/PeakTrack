@@ -8,7 +8,17 @@
 import Foundation
 
 protocol WorkoutsListRepository {
-    func delete(by workoutID: UUID) async throws
-    func getWorkouts() async throws -> [WorkoutInformation]
-    func save(workout: WorkoutInformation) async throws
+    func delete(
+        by workoutID: UUID,
+        source: SourceType
+    ) async throws
+
+    func getWorkouts(
+        source: SourceType
+    ) async throws -> [WorkoutInformation]
+
+    func save(
+        source: SourceType,
+        workout: WorkoutInformation
+    ) async throws
 }

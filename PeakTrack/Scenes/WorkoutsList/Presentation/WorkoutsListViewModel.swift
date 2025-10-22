@@ -22,7 +22,7 @@ final class WorkoutsListViewModel: ObservableObject {
 
     struct Dependencies {
         let deleteWorkoutUseCase: DeleteWorkoutUseCase
-        let getWorkoutsUseCase: GetWorkoutsUseCase
+        let getWorkoutsUseCase: GetWorkoutsLocalUseCase
         let presenter: WorkoutsListPresenter
     }
 
@@ -45,15 +45,19 @@ final class WorkoutsListViewModel: ObservableObject {
 
     func onLoad() async {
         do {
-            let workouts = try await dependencies.getWorkoutsUseCase()
+            async let localWorkouts = dependencies.getWorkoutsUseCase(source: .local)
+            async let remoteWorkouts = dependencies.getWorkoutsUseCase(source: .remote)
+
+            let allWorkouts = try await [localWorkouts, remoteWorkouts]
+            let allMappedWorkouts = allWorkouts.flatMap { $0 }
 
             await MainActor.run { [weak self] in
-                self?.workoutsByCategory[.all] = workouts
-                self?.workoutsByCategory[.local] = workouts
-                self?.workoutsByCategory[.remote] = [] // TODO: -IY- Get in future
+                self?.workoutsByCategory[.all] = allMappedWorkouts
+                self?.workoutsByCategory[.local] = allWorkouts.first
+                self?.workoutsByCategory[.remote] = allWorkouts.last
             }
 
-            await setContent(from: workouts)
+            await setContent(from: allMappedWorkouts)
         } catch {
             await MainActor.run { [weak self] in
                 self?.state = .empty
@@ -77,7 +81,7 @@ final class WorkoutsListViewModel: ObservableObject {
     @MainActor
     func delete(workoutID: UUID) async {
         do {
-            try await dependencies.deleteWorkoutUseCase(by: workoutID)
+            try await dependencies.deleteWorkoutUseCase(by: workoutID, source: .local)
             await onLoad()
         } catch {
             print(error.localizedDescription)
