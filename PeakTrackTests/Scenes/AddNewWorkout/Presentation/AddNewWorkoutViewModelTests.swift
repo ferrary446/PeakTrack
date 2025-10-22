@@ -27,8 +27,10 @@ final class AddNewWorkoutViewModelTests: XCTestCase {
     @MainActor
     func test_givenNameIsEmpty_whenSaveToLocalTapped_thenActionNotExecuted() async {
         var actions = [AddNewWorkoutViewModel.Action]()
+        let presenter = AddNewWorkoutAlertPresenterSpy()
         let saveWorkoutUseCase = SaveWorkoutUseCaseSpy()
         let sut = makeSUT(
+            presenter: presenter,
             saveWorkoutUseCase: saveWorkoutUseCase,
             onAction: { action in
                 actions.append(action)
@@ -38,8 +40,9 @@ final class AddNewWorkoutViewModelTests: XCTestCase {
         await sut.saveTo(source: .local)
 
         XCTAssertEqual(actions.count, 0)
-        XCTAssertNotNil(sut.alert)
-        XCTAssertEqual(saveWorkoutUseCase.counter.count, 0)
+        XCTAssertEqual(sut.alert?.message, presenter.calls.first?.message)
+        XCTAssertEqual(presenter.calls.count, 1)
+        XCTAssertEqual(saveWorkoutUseCase.calls.count, 0)
     }
 
     @MainActor
@@ -63,21 +66,23 @@ final class AddNewWorkoutViewModelTests: XCTestCase {
         XCTAssertEqual(actions.count, 1)
         XCTAssertEqual(actions.first, .save)
         XCTAssertNil(sut.alert)
-        XCTAssertEqual(saveWorkoutUseCase.counter.count, 1)
-        XCTAssertEqual(saveWorkoutUseCase.counter.first?.source, expectedSource)
-        XCTAssertEqual(saveWorkoutUseCase.counter.first?.workout.name, expectedWorkoutInformation.name)
-        XCTAssertEqual(saveWorkoutUseCase.counter.first?.workout.place, expectedWorkoutInformation.place)
-        XCTAssertEqual(saveWorkoutUseCase.counter.first?.workout.duration, expectedWorkoutInformation.duration)
+        XCTAssertEqual(saveWorkoutUseCase.calls.count, 1)
+        XCTAssertEqual(saveWorkoutUseCase.calls.first?.source, expectedSource)
+        XCTAssertEqual(saveWorkoutUseCase.calls.first?.workout.name, expectedWorkoutInformation.name)
+        XCTAssertEqual(saveWorkoutUseCase.calls.first?.workout.place, expectedWorkoutInformation.place)
+        XCTAssertEqual(saveWorkoutUseCase.calls.first?.workout.duration, expectedWorkoutInformation.duration)
     }
 }
 
 private extension AddNewWorkoutViewModelTests {
     func makeSUT(
+        presenter: AddNewWorkoutAlertPresenter = AddNewWorkoutAlertPresenterSpy(),
         saveWorkoutUseCase: SaveWorkoutUseCase = SaveWorkoutUseCaseSpy(),
         onAction: @escaping (AddNewWorkoutViewModel.Action) -> Void = { _ in }
     ) -> AddNewWorkoutViewModel {
         AddNewWorkoutViewModel(
             dependencies: AddNewWorkoutViewModel.Dependencies(
+                presenter: presenter,
                 saveWorkoutUseCase: saveWorkoutUseCase
             ),
             parameters: AddNewWorkoutViewModel.Parameters(

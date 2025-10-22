@@ -8,23 +8,26 @@
 @testable import PeakTrack
 
 final class SaveWorkoutUseCaseSpy: SaveWorkoutUseCase {
-    struct SaveWorkoutUseCaseCounter {
+    struct Call {
         let source: SourceType
         let workout: WorkoutInformation
     }
 
-    var errorToThrow: Error?
+    private(set) var calls = [Call]()
+    private let errorToThrow: (() -> Error)?
 
-    private(set) var counter = [SaveWorkoutUseCaseCounter]()
+    init(errorToThrow: (() -> Error)? = nil) {
+        self.errorToThrow = errorToThrow
+    }
 
     func callAsFunction(
         source: SourceType,
         workout: WorkoutInformation
     ) async throws {
-        counter.append(SaveWorkoutUseCaseCounter(source: source, workout: workout))
+        calls.append(Call(source: source, workout: workout))
 
         if let errorToThrow {
-            throw errorToThrow
+            throw errorToThrow()
         }
     }
 }

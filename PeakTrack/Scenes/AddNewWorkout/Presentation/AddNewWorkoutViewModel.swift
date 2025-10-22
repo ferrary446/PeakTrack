@@ -14,6 +14,7 @@ final class AddNewWorkoutViewModel: ObservableObject {
     }
 
     struct Dependencies {
+        let presenter: AddNewWorkoutAlertPresenter
         let saveWorkoutUseCase: SaveWorkoutUseCase
     }
 
@@ -42,7 +43,7 @@ final class AddNewWorkoutViewModel: ObservableObject {
     @MainActor
     func saveTo(source: SourceType) async {
         guard !nameText.isEmpty else {
-            setAlert(message: "Name field is required")
+            await setAlert(message: "Name field is required")
             return
         }
 
@@ -57,27 +58,24 @@ final class AddNewWorkoutViewModel: ObservableObject {
             try await dependencies.saveWorkoutUseCase(source: source, workout: information)
             parameters.onAction(.save)
         } catch {
-            print(error.localizedDescription)
+            await setAlert(message: error.localizedDescription)
         }
     }
 }
 
 private extension AddNewWorkoutViewModel {
-    @MainActor
-    func setAlert(message: String) {
-        let alert = AsyncAlertViewModel(
-            title: "Warning ⚠️",
+    func setAlert(message: String) async {
+        let alert = dependencies.presenter.present(
             message: message,
-            buttons: [
-                AsyncAlertViewModel.ButtonViewModel(
-                    title: "Confirm",
-                    action: { [weak self] in
-                        self?.alert = nil
-                    }
-                )
-            ]
+            onConfirm: { [weak self] in
+                await MainActor.run { [weak self] in
+                    self?.alert = nil
+                }
+            }
         )
 
-        self.alert = alert
+        await MainActor.run { [weak self] in
+            self?.alert = alert
+        }
     }
 }

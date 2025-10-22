@@ -25,7 +25,15 @@ private extension DIAssembler {
 
 // MARK: - Presentation
 private extension DIAssembler {
+    static func assembleAddNewWorkoutAlertPresenter() {
+        DI.live.register(identifier: AddNewWorkoutAlertPresenter.self) {
+            AddNewWorkoutAlertPresenterImp()
+        }
+    }
+
     static func assembleAddNewWorkoutPresentationLayer() {
+        assembleAddNewWorkoutAlertPresenter()
+
         DI.live.register(identifier: AddNewWorkoutView.self) { parameters in
             guard let parameters = parameters as? AddNewWorkoutViewModel.Parameters else {
                 fatalError("Fail to cast \(parameters.self) to DI parameters")
@@ -33,6 +41,7 @@ private extension DIAssembler {
 
             let viewModel = AddNewWorkoutViewModel(
                 dependencies: AddNewWorkoutViewModel.Dependencies(
+                    presenter: DI.live.resolve(identifier: AddNewWorkoutAlertPresenter.self),
                     saveWorkoutUseCase: DI.live.resolve(identifier: SaveWorkoutUseCase.self)
                 ),
                 parameters: parameters
