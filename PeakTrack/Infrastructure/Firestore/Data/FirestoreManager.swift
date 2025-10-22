@@ -18,6 +18,11 @@ protocol FirestoreManagerful {
         collectionID: FirestoreManager.CollectionID,
         document: C
     ) async throws
+
+    func deleteDocument(
+        collectionID: FirestoreManager.CollectionID,
+        idField: String
+    ) async throws
 }
 
 final class FirestoreManager: FirestoreManagerful {
@@ -28,6 +33,7 @@ final class FirestoreManager: FirestoreManagerful {
     enum Errors: Error {
         case failedToGetDocuments
         case failedToSaveDocument
+        case failedToDeleteDocument
     }
 
     private let store: Firestore
@@ -65,6 +71,24 @@ final class FirestoreManager: FirestoreManagerful {
                 .addDocument(data: document.asDictionary())
         } catch {
             throw Errors.failedToSaveDocument
+        }
+    }
+
+    func deleteDocument(
+        collectionID: FirestoreManager.CollectionID,
+        idField: String
+    ) async throws {
+        do {
+            let documents = try await store
+                .collection(collectionID.rawValue)
+                .whereField("id", isEqualTo: idField)
+                .getDocuments()
+
+            for document in documents.documents {
+                try await document.reference.delete()
+            }
+        } catch {
+            throw Errors.failedToDeleteDocument
         }
     }
 }

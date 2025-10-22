@@ -20,7 +20,10 @@ final class WorkoutsListRemoteRepository: WorkoutsListRepository {
         by workoutID: UUID,
         source: SourceType
     ) async throws {
-
+        try await manager.deleteDocument(
+            collectionID: .workouts,
+            idField: workoutID.uuidString
+        )
     }
 
     func getWorkouts(
