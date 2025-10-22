@@ -20,7 +20,7 @@ struct WorkoutsListView: View {
             case .empty:
                 ScrollView {
                     Text("No workout information")
-                        .font(.headline)                    
+                        .font(.headline)
                 }
             case .loading:
                 ProgressView()

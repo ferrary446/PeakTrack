@@ -82,7 +82,7 @@ private extension AddNewWorkoutView {
             Button(
                 action: {
                     Task {
-                        await viewModel.saveToDB()
+                        await viewModel.saveTo(source: .local)
                     }
                 },
                 label: {
@@ -93,7 +93,11 @@ private extension AddNewWorkoutView {
             Spacer()
 
             Button(
-                action: viewModel.saveToServer,
+                action: {
+                    Task {
+                        await viewModel.saveTo(source: .remote)
+                    }
+                },
                 label: {
                     Label("Save to Server", systemImage: "network")
                 }

@@ -13,6 +13,11 @@ protocol FirestoreManagerful {
         collectionID: FirestoreManager.CollectionID,
         type: E.Type
     ) async throws -> [E]
+
+    func addDocument<C: Codable>(
+        collectionID: FirestoreManager.CollectionID,
+        document: C
+    ) async throws
 }
 
 final class FirestoreManager: FirestoreManagerful {
@@ -22,6 +27,7 @@ final class FirestoreManager: FirestoreManagerful {
 
     enum Errors: Error {
         case failedToGetDocuments
+        case failedToSaveDocument
     }
 
     private let store: Firestore
@@ -48,23 +54,17 @@ final class FirestoreManager: FirestoreManagerful {
             throw Errors.failedToGetDocuments
         }
     }
-//    func getDocuments<E: Decodable>(
-//        collectionID: FirestoreManager.CollectionID,
-//        type: E.Type
-//    ) async throws -> [E] {
-//        do {
-//            let snapshot = try await store
-//                .collection(collectionID.rawValue)
-//                .document()
-//                .
-//
-//            let data = try snapshot.documents.map { document in
-//                try document.data(as: type)
-//            }
-//
-//            return data
-//        } catch {
-//            throw Errors.failedToGetDocuments
-//        }
-//    }
+
+    func addDocument<C: Codable>(
+        collectionID: FirestoreManager.CollectionID,
+        document: C
+    ) async throws {
+        do {
+            try await store
+                .collection(collectionID.rawValue)
+                .addDocument(data: document.asDictionary())
+        } catch {
+            throw Errors.failedToSaveDocument
+        }
+    }
 }

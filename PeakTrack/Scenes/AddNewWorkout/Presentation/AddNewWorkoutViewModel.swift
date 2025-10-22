@@ -40,7 +40,7 @@ final class AddNewWorkoutViewModel: ObservableObject {
     }
 
     @MainActor
-    func saveToDB() async {
+    func saveTo(source: SourceType) async {
         guard !nameText.isEmpty else {
             setAlert(message: "Name field is required")
             return
@@ -54,16 +54,11 @@ final class AddNewWorkoutViewModel: ObservableObject {
                 duration: durationText
             )
 
-            try await dependencies.saveWorkoutUseCase(source: .local, workout: information)
+            try await dependencies.saveWorkoutUseCase(source: source, workout: information)
             parameters.onAction(.save)
         } catch {
             print(error.localizedDescription)
         }
-    }
-    
-    @MainActor
-    func saveToServer() {
-        setAlert(message: "This feature in progress...")
     }
 }
 

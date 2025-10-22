@@ -11,6 +11,7 @@ protocol WorkoutInformationConverter {
     func convert(dto: WorkoutDTOEntity) -> WorkoutInformation
     func convert(dbEntity: WorkoutDBEntity) -> WorkoutInformation
     func convert(domainModel: WorkoutInformation) -> WorkoutDBEntity
+    func convert(domainModel: WorkoutInformation) -> WorkoutDTOEntity
 }
 
 struct WorkoutInformationConverterImp: WorkoutInformationConverter {
@@ -35,6 +36,15 @@ struct WorkoutInformationConverterImp: WorkoutInformationConverter {
     func convert(domainModel: WorkoutInformation) -> WorkoutDBEntity {
         WorkoutDBEntity(
             id: domainModel.id,
+            name: domainModel.name,
+            place: domainModel.place,
+            duration: domainModel.duration
+        )
+    }
+
+    func convert(domainModel: WorkoutInformation) -> WorkoutDTOEntity {
+        WorkoutDTOEntity(
+            id: domainModel.id.uuidString,
             name: domainModel.name,
             place: domainModel.place,
             duration: domainModel.duration

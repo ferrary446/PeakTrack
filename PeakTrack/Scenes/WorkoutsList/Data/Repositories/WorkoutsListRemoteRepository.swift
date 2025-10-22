@@ -20,17 +20,7 @@ final class WorkoutsListRemoteRepository: WorkoutsListRepository {
         by workoutID: UUID,
         source: SourceType
     ) async throws {
-//        let dbEntities: [WorkoutDBEntity] = try manager.getEntities(
-//            model: WorkoutDBEntity.self,
-//            predicate: #Predicate<WorkoutDBEntity> { entity in
-//                entity.id == workoutID
-//            }
-//        )
-//        let dbEntity = dbEntities.first(where: { $0.id == workoutID })
-//
-//        if let dbEntity {
-//            try manager.deleteEntity(dbEntity)
-//        }
+
     }
 
     func getWorkouts(
@@ -49,8 +39,11 @@ final class WorkoutsListRemoteRepository: WorkoutsListRepository {
         source: SourceType,
         workout: WorkoutInformation
     ) async throws {
-//        let dbEntity = converter.convert(domainModel: workout)
-//
-//        try manager.saveEntity(dbEntity)
+        let workoutDTOEntity: WorkoutDTOEntity = converter.convert(domainModel: workout)
+
+        try await manager.addDocument(
+            collectionID: .workouts,
+            document: workoutDTOEntity
+        )
     }
 }

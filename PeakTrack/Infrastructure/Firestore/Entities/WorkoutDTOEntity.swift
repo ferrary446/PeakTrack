@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct WorkoutDTOEntity: Decodable {
+struct WorkoutDTOEntity: Codable {
     let id: String
     let name: String
     let place: String

@@ -52,7 +52,7 @@ final class WorkoutsListLocalRepository: WorkoutsListRepository {
         source: SourceType,
         workout: WorkoutInformation
     ) async throws {
-        let dbEntity = converter.convert(domainModel: workout)
+        let dbEntity: WorkoutDBEntity = converter.convert(domainModel: workout)
 
         try manager.saveEntity(dbEntity)
     }
