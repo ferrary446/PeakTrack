@@ -44,8 +44,8 @@ private extension DIAssembler {
             )
         }
 
-        DI.live.register(identifier: GetWorkoutsLocalUseCase.self) {
-            GetWorkoutsLocalLiveUseCase(
+        DI.live.register(identifier: GetWorkoutsUseCase.self) {
+            GetWorkoutsLiveUseCase(
                 repository: DI.live.resolve(identifier: WorkoutsListRepository.self)
             )
         }
@@ -67,7 +67,7 @@ private extension DIAssembler {
             let viewModel = WorkoutsListViewModel(
                 dependencies: WorkoutsListViewModel.Dependencies(
                     deleteWorkoutUseCase: DI.live.resolve(identifier: DeleteWorkoutUseCase.self),
-                    getWorkoutsUseCase: DI.live.resolve(identifier: GetWorkoutsLocalUseCase.self),
+                    getWorkoutsUseCase: DI.live.resolve(identifier: GetWorkoutsUseCase.self),
                     presenter: DI.live.resolve(identifier: WorkoutsListPresenter.self)
                 ),
                 parameters: parameters

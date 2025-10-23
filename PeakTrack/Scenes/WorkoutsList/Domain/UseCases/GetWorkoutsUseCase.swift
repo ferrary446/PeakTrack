@@ -1,15 +1,15 @@
 //
-//  GetWorkoutsLocalUseCase.swift
+//  GetWorkoutsUseCase.swift
 //  PeakTrack
 //
 //  Created by Ilya Yushkov on 02.09.2025.
 //
 
-protocol GetWorkoutsLocalUseCase {
+protocol GetWorkoutsUseCase {
     func callAsFunction(source: SourceType) async throws -> [WorkoutInformation]
 }
 
-final class GetWorkoutsLocalLiveUseCase: GetWorkoutsLocalUseCase {
+final class GetWorkoutsLiveUseCase: GetWorkoutsUseCase {
     private let repository: WorkoutsListRepository
 
     init(repository: WorkoutsListRepository) {

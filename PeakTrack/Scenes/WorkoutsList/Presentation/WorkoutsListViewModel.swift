@@ -22,7 +22,7 @@ final class WorkoutsListViewModel: ObservableObject {
 
     struct Dependencies {
         let deleteWorkoutUseCase: DeleteWorkoutUseCase
-        let getWorkoutsUseCase: GetWorkoutsLocalUseCase
+        let getWorkoutsUseCase: GetWorkoutsUseCase
         let presenter: WorkoutsListPresenter
     }
 
