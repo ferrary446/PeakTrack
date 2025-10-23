@@ -20,7 +20,7 @@ final class AsyncAlertViewModelTests: XCTestCase {
             )
         ]
         let sut = makeSUT(title: title, message: message, buttons: buttons)
- 
+
         XCTAssertEqual(sut.title, title)
         XCTAssertEqual(sut.message, message)
         XCTAssertEqual(sut.buttons, buttons)

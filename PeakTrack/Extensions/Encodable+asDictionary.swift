@@ -7,13 +7,18 @@
 
 import Foundation
 
-public extension Encodable {
+extension Encodable {
     func asDictionary() -> [String: Any] {
         guard let data = try? JSONEncoder().encode(self) else {
             return [:]
         }
 
-        guard let dictionary = try? JSONSerialization.jsonObject(with: data, options: .allowFragments) as? [String: Any] else {
+        let dictionary = try? JSONSerialization.jsonObject(
+            with: data,
+            options: .allowFragments
+        ) as? [String: Any]
+
+        guard let dictionary else {
             return [:]
         }
 

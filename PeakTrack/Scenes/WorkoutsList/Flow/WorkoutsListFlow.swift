@@ -22,7 +22,7 @@ struct WorkoutsListFlow: View {
         @ViewBuilder let workoutsListViewBuilder: (
             _ onAction: @escaping (WorkoutsListViewModel.Action) -> Void
         ) -> WorkoutsListView
-        
+
         @ViewBuilder let workoutDetailViewBuilder: (
             _ information: WorkoutInformation
         ) -> WorkoutDetailView

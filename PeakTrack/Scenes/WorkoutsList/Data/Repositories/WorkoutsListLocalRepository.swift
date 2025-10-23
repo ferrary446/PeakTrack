@@ -30,7 +30,7 @@ final class WorkoutsListLocalRepository: WorkoutsListRepository {
         let dbEntity = dbEntities.first(where: { $0.id == workoutID })
 
         if let dbEntity {
-            try manager.deleteEntity(dbEntity)            
+            try manager.deleteEntity(dbEntity)
         }
     }
 

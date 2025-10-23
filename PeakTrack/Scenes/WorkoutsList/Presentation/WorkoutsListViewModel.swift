@@ -52,6 +52,7 @@ final class WorkoutsListViewModel: ObservableObject {
             let allMappedWorkouts = allWorkouts.flatMap { $0 }
 
             await MainActor.run { [weak self] in
+                self?.currentCategory = .all
                 self?.workoutsByCategory[.all] = allMappedWorkouts
                 self?.workoutsByCategory[.local] = allWorkouts.first
                 self?.workoutsByCategory[.remote] = allWorkouts.last
@@ -84,7 +85,7 @@ final class WorkoutsListViewModel: ObservableObject {
             if workoutsByCategory[.local]?.contains(where: { $0.id == workoutID }) ?? false {
                 return .local
             }
-            
+
             if workoutsByCategory[.remote]?.contains(where: { $0.id == workoutID }) ?? false {
                 return .remote
             }

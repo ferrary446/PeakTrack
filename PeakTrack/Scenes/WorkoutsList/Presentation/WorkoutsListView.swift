@@ -53,7 +53,7 @@ private extension WorkoutsListView {
 
                         row.subtitle.map { Text($0) }
                     }
-                    
+
                     Spacer()
 
                     Image(systemName: "chevron.right")
