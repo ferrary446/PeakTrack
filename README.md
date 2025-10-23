@@ -141,8 +141,8 @@ API endpoints and network configuration can be modified in the `APIClient` class
 
 ## 📱 Supported Devices
 
-- iPhone (iOS 17.0+)
-- iPad (iOS 17.0+)
+- iPhone (iOS 18.0+)
+- iPad (iOS 18.0+)
 
 ## 🤝 Contributing
 
