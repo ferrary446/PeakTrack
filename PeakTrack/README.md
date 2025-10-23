@@ -1,184 +1,171 @@
-# PeakTrack
+# PeakTrack 🏃‍♂️
 
-A SwiftUI workout tracking application built with modern iOS architecture patterns.
+A modern iOS workout tracking application built with SwiftUI and Clean Architecture principles. PeakTrack allows users to manage their workout information with both local and remote storage capabilities.
 
-## Architecture Overview
+## 📱 Features
 
-PeakTrack follows a **Clean Architecture** pattern with **Dependency Injection**, providing a scalable and maintainable codebase. The app uses Firebase for data persistence and SwiftUI for the user interface.
+- **Workout Management**: Create, view, and delete workout sessions
+- **Dual Storage**: Save workouts locally (Swift Data) or remotely (server)
+- **Smart Filtering**: Filter workouts by storage location (All, Local, Remote)
+- **Modern UI**: Beautiful SwiftUI interface with smooth navigation
+- **Offline Support**: Work with workouts even without internet connection
+- **Pull-to-Refresh**: Easy data synchronization
 
-### Key Architectural Components
+## 🏗️ Architecture
 
-- **Clean Architecture**: Separation of concerns across Data, Domain, and Presentation layers
-- **Dependency Injection**: Custom DI container for loose coupling and testability
-- **Flow-based Navigation**: Coordinated navigation using `NavigationRouter` and flow controllers
-- **MVVM Pattern**: ViewModels handle business logic and state management
-
-## Project Structure
+PeakTrack follows Clean Architecture principles with a clear separation of concerns:
 
 ```
 PeakTrack/
-├── App/
-│   └── PeakTrackApp.swift              # Main app entry point
-├── Architecture/
-│   ├── DI/
-│   │   ├── DI.swift                    # DI container access point
-│   │   ├── DIContainer.swift           # DI container protocol and implementation
-│   │   └── DIAssembler.swift           # Main DI assembly coordinator
-│   └── Navigation/
-│       └── NavigationRouter.swift      # Centralized navigation management
-├── Features/
-│   ├── WorkoutsList/
-│   │   ├── Flow/
-│   │   │   └── WorkoutsListFlow.swift  # Flow coordinator for workouts list
-│   │   ├── Presentation/
-│   │   │   ├── WorkoutsListView.swift
-│   │   │   ├── WorkoutsListViewModel.swift
-│   │   │   └── WorkoutsListPresenter.swift
-│   │   ├── Domain/
-│   │   │   └── UseCases/
-│   │   └── Data/
-│   │       └── Repositories/
-│   ├── AddNewWorkout/
-│   │   └── [Similar structure to WorkoutsList]
-│   └── WorkoutDetail/
-│       └── [Similar structure to WorkoutsList]
-└── DI Assembly/
-    ├── DIAssembler+WorkoutsList.swift  # DI setup for WorkoutsList feature
-    ├── DIAssembler+AddNewWorkout.swift # DI setup for AddNewWorkout feature
-    ├── DIAssembler+WorkoutDetail.swift # DI setup for WorkoutDetail feature
-    ├── DIAssembler+DBManager.swift     # Database manager DI setup
-    └── DIAssembler+FirestoreManager.swift # Firestore manager DI setup
+├── Scenes/           # Feature-based modules
+│   ├── AddNewWorkout/    # Add new workout functionality
+│   ├── WorkoutsList/     # Main workouts list
+│   └── WorkoutDetail/    # Workout details view
+├── DB/               # Database layer (Swift Data)
+├── DI/               # Dependency Injection
+├── Networking/       # API client for remote operations
+├── Navigation/       # Navigation routing
+└── UI/              # Shared UI components
 ```
 
-## Architecture Layers
+### Architecture Layers
 
-### 1. Presentation Layer
-- **Views**: SwiftUI views that compose the user interface
-- **ViewModels**: Handle UI state and user interactions
-- **Presenters**: Format data for display in views
-- **Flows**: Coordinate navigation and screen transitions
+- **Presentation Layer**: SwiftUI views and view models
+- **Domain Layer**: Business logic, entities, and use cases
+- **Data Layer**: Repositories and data sources
+- **Infrastructure**: Database, networking, and DI container
 
-### 2. Domain Layer
-- **Use Cases**: Encapsulate business logic and application rules
-- **Entities**: Core business objects and data models
-- **Repository Protocols**: Define data access interfaces
-
-### 3. Data Layer
-- **Repositories**: Implement data access logic
-- **Local Data Sources**: Core Data or local storage
-- **Remote Data Sources**: Firebase/Firestore integration
-- **Converters**: Transform between data models and domain entities
-
-## Key Features
-
-### Flow-based Navigation
-Each major feature is organized around a "Flow" that coordinates navigation:
-
-```swift
-struct WorkoutsListFlow: View {
-    // Handles navigation between:
-    // - Workouts list
-    // - Add new workout (sheet)
-    // - Workout detail (navigation)
-}
-```
-
-### Dependency Injection
-The app uses a custom DI container for managing dependencies:
-
-```swift
-// Registration
-DI.live.register(identifier: WorkoutsListView.self) { parameters in
-    // Create and return configured view
-}
-
-// Resolution
-let view = DI.live.resolve(
-    identifier: WorkoutsListView.self,
-    parameters: parameters
-)
-```
-
-### Navigation Management
-Centralized navigation through `NavigationRouter`:
-
-```swift
-@MainActor
-final class NavigationRouter: ObservableObject {
-    @Published var sheetDestination: SheetDestination?
-    @Published var path = NavigationPath()
-    
-    func navigate<D: Hashable>(to destination: D)
-    func presentSheet<D: View>(@ViewBuilder destination: @escaping () -> D)
-}
-```
-
-## Getting Started
+## 🚀 Getting Started
 
 ### Prerequisites
+
 - Xcode 15.0+
 - iOS 17.0+
 - Swift 5.9+
-- Firebase account and project setup
 
 ### Installation
 
-1. Clone the repository
+1. Clone the repository:
+```bash
+git clone https://github.com/yourusername/PeakTrack.git
+cd PeakTrack
+```
+
 2. Open `PeakTrack.xcodeproj` in Xcode
-3. Configure Firebase:
-   - Add your `GoogleService-Info.plist` file to the project
-   - Ensure Firebase SDK is properly integrated
-4. Build and run
 
-### Firebase Setup
-The app uses Firebase for data persistence. Make sure to:
-1. Create a Firebase project
-2. Enable Firestore Database
-3. Configure authentication if needed
-4. Download and add the `GoogleService-Info.plist` file
+3. Build and run the project on your device or simulator
 
-## Development Guidelines
+## 📱 App Structure
 
-### Adding New Features
-1. Create feature folder structure following the established pattern
-2. Implement Clean Architecture layers (Presentation → Domain → Data)
-3. Create DI assembly extension (`DIAssembler+FeatureName.swift`)
-4. Add flow coordinator for navigation
-5. Register dependencies in the main assembly method
+### Main Screens
 
-### Dependency Injection Pattern
-- Register all dependencies during app startup in `DIAssembler`
-- Use protocols for dependency abstraction
-- Pass parameters through dedicated parameter objects
-- Resolve dependencies at the composition root
+1. **Workouts List** - Main screen displaying all workouts with filtering options
+2. **Add New Workout** - Form to create new workout entries
+3. **Workout Detail** - Detailed view of individual workout information
 
-### Navigation Pattern
-- Use flows to coordinate navigation within feature boundaries
-- Leverage `NavigationRouter` for centralized navigation state
-- Handle both push navigation and sheet presentation
-- Keep navigation logic separate from business logic
+### Core Features
 
-## Testing
+- **Workout Information**: Track workout name, place, and duration
+- **Storage Options**: Choose between local database or remote server
+- **Data Persistence**: Automatic saving and retrieval of workout data
+- **Navigation**: Intuitive navigation between screens with proper routing
 
-The architecture supports easy testing through:
-- Dependency injection for mock substitution
-- Clean separation of layers
-- Protocol-based abstractions
-- Isolated business logic in use cases
+## 🛠️ Technical Details
 
-## Technologies Used
+### Dependencies
 
-- **SwiftUI**: User interface framework
-- **Firebase/Firestore**: Backend and database
-- **Swift Concurrency**: Async/await for asynchronous operations
-- **Clean Architecture**: Architectural pattern
-- **MVVM**: Presentation layer pattern
-- **Dependency Injection**: Custom DI container
+- **SwiftUI**: Modern declarative UI framework
+- **SwiftData**: Local data persistence
+- **Combine**: Reactive programming for data binding
+- **Dependency Injection**: Custom DI container for testability
 
-## Contributing
+### Key Components
 
-1. Follow the established architecture patterns
-2. Maintain separation of concerns across layers
-3. Use dependency injection for all external dependencies
-4. Write comprehensive tests for business logic
-5. Follow Swift style guidelines and best practices
+- **DIAssembler**: Dependency injection configuration
+- **NavigationRouter**: Centralized navigation management
+- **APIClient**: Network layer for remote operations
+- **WorkoutDBEntity**: SwiftData model for workouts
+
+### Data Flow
+
+1. User interacts with UI
+2. ViewModel processes user actions
+3. UseCase executes business logic
+4. Repository manages data operations
+5. Data is stored locally or remotely
+6. UI updates reflect changes
+
+## 🧪 Testing
+
+The project is structured to support comprehensive testing:
+
+- **Unit Tests**: Test individual components in isolation
+- **Integration Tests**: Test component interactions
+- **UI Tests**: Test user interface flows
+
+## 📁 Project Structure
+
+```
+PeakTrack/
+├── PeakTrackApp.swift              # Main app entry point
+├── Scenes/                         # Feature modules
+│   ├── AddNewWorkout/             # Add workout feature
+│   │   ├── Domain/                # Business logic
+│   │   ├── Presentation/          # UI layer
+│   │   └── DI/                   # Feature DI
+│   ├── WorkoutsList/              # Workouts list feature
+│   │   ├── Data/                  # Data layer
+│   │   ├── Domain/                # Business logic
+│   │   ├── Flow/                  # Feature flow
+│   │   ├── Presentation/          # UI layer
+│   │   └── DI/                   # Feature DI
+│   └── WorkoutDetail/             # Workout detail feature
+├── DB/                            # Database layer
+├── DI/                            # Dependency injection
+├── Extensions/                    # SwiftUI extensions
+├── Navigation/                    # Navigation system
+├── Networking/                    # Network layer
+├── Resources/                     # Assets and resources
+└── UI/                           # Shared UI components
+```
+
+## 🔧 Configuration
+
+### Database Setup
+
+The app uses SwiftData for local storage. Database configuration is handled automatically through the `DBManager`.
+
+### Network Configuration
+
+API endpoints and network configuration can be modified in the `APIClient` class.
+
+## 📱 Supported Devices
+
+- iPhone (iOS 17.0+)
+- iPad (iOS 17.0+)
+
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add some amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
+
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## 👨‍💻 Author
+
+**Ilya Yushkov** - [GitHub Profile](https://github.com/ferrary446)
+
+## 🙏 Acknowledgments
+
+- SwiftUI team for the amazing framework
+- Apple for SwiftData and iOS development tools
+- Clean Architecture community for architectural guidance
+
+---
+
+**Note**: This is a personal project for learning and demonstrating iOS development best practices with Clean Architecture and SwiftUI.
