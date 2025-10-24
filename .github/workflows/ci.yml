@@ -34,6 +34,20 @@ jobs:
           key: brew-${{ runner.os }}-swiftgen
           restore-keys: brew-${{ runner.os }}-
 
+      - name: Install SwiftLint
+        run: |
+          brew update
+          brew install swiftlint
+          which swiftlint && swiftlint version
+
+      - name: Place GoogleService-Info.plist
+        run: |
+            mkdir -p PeakTrack/Resources
+            echo "$GOOGLE_SERVICE_INFO_PLIST_BASE64" | base64 --decode > PeakTrack/Resources/GoogleService-Info.plist
+            ls -la PeakTrack/Resources
+        env:
+            GOOGLE_SERVICE_INFO_PLIST_BASE64: ${{ secrets.GOOGLE_SERVICE_INFO_PLIST_BASE64 }}
+
       - name: Xcode version
         run: /usr/bin/xcodebuild -version
 
