@@ -1,4 +1,4 @@
-name: PeakTrack
+name: PeakTrack Compilation Check
 
 on:
   push:
