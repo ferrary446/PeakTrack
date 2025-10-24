@@ -1,4 +1,4 @@
-def build_lane(options)
+def build_lane
     setup_ci if ENV["CI"]
 
     clear_derived_data(
