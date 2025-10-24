@@ -1,4 +1,5 @@
 require_relative 'lanes/build_lane'
+require_relative 'lanes/test_lane'
 
 default_platform(:ios)
 
@@ -6,5 +7,10 @@ platform :ios do
   desc "Build Application"
   lane :build do
     build_lane
+  end
+
+  desc "Test Application"
+  lane :test do
+    test_lane
   end
 end
