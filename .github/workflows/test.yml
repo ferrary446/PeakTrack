@@ -36,3 +36,9 @@ jobs:
 
       - name: Xcode version
         run: /usr/bin/xcodebuild -version
+        
+      - name: Build
+        run: bundle exec fastlane build
+        env:
+          LC_ALL: en_US.UTF-8
+          LANG: en_US.UTF-8

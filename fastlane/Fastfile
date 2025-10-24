@@ -1,0 +1,10 @@
+require_relative 'lanes/build_lane'
+
+default_platform(:ios)
+
+platform :ios do
+  desc "Build Application"
+  lane :build do
+    build_lane
+  end
+end
